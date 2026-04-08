@@ -36,6 +36,22 @@ The project follows a modularized separation of concerns to ensure independent t
 
 ---
 
+## 📱 App Showcase
+
+| **Splash Screen** | **Authentication** | **Dashboard** |
+| :---: | :---: | :---: |
+| ![Splash](screen_shots/Splash_screen.jpeg) | ![Signup](screen_shots/signup_Page.jpeg) | ![Dashboard](screen_shots/HomeScreen.jpeg) |
+
+| **Analytics** | **Budget Management** | **Insights** |
+| :---: | :---: | :---: |
+| ![Spending](screen_shots/Spending_Screen.jpeg) | ![Budget](screen_shots/Monthly_budget_screen.jpeg) | ![Category](screen_shots/Category_wise_spending.jpeg) |
+
+| **Logging Transactions** | **User Profile** |
+| :---: | :---: |
+| ![Add](screen_shots/Transaction_adding.jpeg) | ![Profile](screen_shots/Profile.jpeg) |
+
+---
+
 ## 🏗️ Tech Stack
 
 - **Framework**: `Flutter` (for high-performance cross-platform rendering)
