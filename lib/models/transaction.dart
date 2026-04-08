@@ -10,6 +10,7 @@ class TransactionModel {
   final String category;
   final String note;
   final TransactionType type;
+  final String? goalId; // Links transaction to a savings goal
 
   TransactionModel({
     String? id,
@@ -19,6 +20,7 @@ class TransactionModel {
     required this.category,
     required this.note,
     required this.type,
+    this.goalId,
   }) : id = id ?? const Uuid().v4();
 
   factory TransactionModel.fromJson(Map<dynamic, dynamic> json) {
@@ -30,6 +32,7 @@ class TransactionModel {
       category: json['category'],
       note: json['note'] ?? '',
       type: TransactionType.values.firstWhere((e) => e.name == json['type']),
+      goalId: json['goalId'],
     );
   }
 
@@ -42,6 +45,7 @@ class TransactionModel {
       'category': category,
       'note': note,
       'type': type.name,
+      'goalId': goalId,
     };
   }
 }

@@ -1,0 +1,12 @@
+﻿Analyzing expense_tracker...                                    
+
+   info - The private field _note could be 'final' - lib\screens\add_transaction_screen.dart:19:10 - prefer_final_fields
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\add_transaction_screen.dart:67:82 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\add_transaction_screen.dart:85:83 - deprecated_member_use
+warning - Unused import: 'package:intl/intl.dart' - lib\screens\dashboard_screen.dart:3:8 - unused_import
+warning - Unused import: '../models/transaction.dart' - lib\screens\dashboard_screen.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:40:60 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\dashboard_screen.dart:96:57 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\screens\settings_screen.dart:33:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\widgets\transaction_card.dart:35:61 - deprecated_member_use
+

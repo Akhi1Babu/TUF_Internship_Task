@@ -1,46 +1,35 @@
-import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/transaction.dart';
+import '../core/services/storage_service.dart';
 
-final transactionProvider = StateNotifierProvider<TransactionNotifier, List<TransactionModel>>((ref) {
-  return TransactionNotifier();
-});
-
-class TransactionNotifier extends StateNotifier<List<TransactionModel>> {
-  TransactionNotifier() : super([]) {
-    _loadTransactions();
-  }
-
-  Future<void> _loadTransactions() async {
-    final prefs = await SharedPreferences.getInstance();
-    final data = prefs.getString('transactions');
-    if (data != null) {
-      final List<dynamic> decoded = json.decode(data);
-      state = decoded.map((e) => TransactionModel.fromJson(e)).toList()
-        ..sort((a, b) => b.date.compareTo(a.date));
-    }
-  }
-
-  Future<void> _saveTransactions(List<TransactionModel> transactions) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String encoded = json.encode(transactions.map((e) => e.toJson()).toList());
-    prefs.setString('transactions', encoded);
+class TransactionNotifier extends Notifier<List<TransactionModel>> {
+  @override
+  List<TransactionModel> build() {
+    final storage = ref.watch(storageServiceProvider);
+    final data = storage.transactionsBox.get('transactions', defaultValue: []);
+    final List<TransactionModel> items = (data as List).map((e) => TransactionModel.fromJson(Map<String, dynamic>.from(e))).toList()
+      ..sort((a, b) => b.date.compareTo(a.date));
+    return items;
   }
 
   void addTransaction(TransactionModel transaction) {
-    final newState = [...state, transaction]
-      ..sort((a, b) => b.date.compareTo(a.date));
-    state = newState;
-    _saveTransactions(newState);
+    state = [transaction, ...state]..sort((a, b) => b.date.compareTo(a.date));
+    _saveToHive();
   }
 
   void removeTransaction(String id) {
-    final newState = state.where((t) => t.id != id).toList();
-    state = newState;
-    _saveTransactions(newState);
+    state = state.where((t) => t.id != id).toList();
+    _saveToHive();
+  }
+
+  void _saveToHive() {
+    final storage = ref.read(storageServiceProvider);
+    final List<Map<String, dynamic>> rawData = state.map((t) => t.toJson()).toList();
+    storage.transactionsBox.put('transactions', rawData);
   }
 }
+
+final transactionProvider = NotifierProvider<TransactionNotifier, List<TransactionModel>>(TransactionNotifier.new);
 
 final totalIncomeProvider = Provider<double>((ref) {
   final transactions = ref.watch(transactionProvider);

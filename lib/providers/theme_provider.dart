@@ -1,30 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../core/services/storage_service.dart';
 
-final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
-  return ThemeNotifier();
-});
+class ThemeNotifier extends Notifier<ThemeMode> {
+  @override
+  ThemeMode build() {
+    final storage = ref.watch(storageServiceProvider);
+    final bool isDark = storage.getData<bool>('settings_box', 'isDark', defaultValue: true) ?? true;
 
-class ThemeNotifier extends StateNotifier<ThemeMode> {
-  ThemeNotifier() : super(ThemeMode.light) {
-    _loadTheme();
-  }
-
-  Future<void> _loadTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    final isDark = prefs.getBool('isDark') ?? false;
-    state = isDark ? ThemeMode.dark : ThemeMode.light;
+    return isDark ? ThemeMode.dark : ThemeMode.light;
   }
 
   void toggleTheme() async {
-    final prefs = await SharedPreferences.getInstance();
+    final storage = ref.read(storageServiceProvider);
     if (state == ThemeMode.light) {
       state = ThemeMode.dark;
-      prefs.setBool('isDark', true);
+      await storage.setData('settings_box', 'isDark', true);
     } else {
       state = ThemeMode.light;
-      prefs.setBool('isDark', false);
+      await storage.setData('settings_box', 'isDark', false);
     }
   }
 }
+
+final themeProvider = NotifierProvider<ThemeNotifier, ThemeMode>(ThemeNotifier.new);
