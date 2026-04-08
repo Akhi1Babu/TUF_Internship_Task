@@ -23,7 +23,7 @@ class TransactionListTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppStyle.getSurface(context),
         borderRadius: AppStyle.rM,
-        border: Border.all(color: Colors.white.withValues(alpha: 0.03)),
+        border: Border.all(color: AppStyle.getOnSurface(context).withValues(alpha: 0.05)),
       ),
       child: Row(
         children: [
@@ -71,7 +71,7 @@ class TransactionListTile extends StatelessWidget {
               Text(
                 '${isIncome ? '+' : '-'}\$${t.amount.toStringAsFixed(2)}',
                 style: TextStyle(
-                  color: isIncome ? AppStyle.primary : Colors.white,
+                  color: isIncome ? AppStyle.primary : AppStyle.getOnSurface(context),
                   fontWeight: FontWeight.bold,
                   fontSize: AppStyle.fM,
                 ),
